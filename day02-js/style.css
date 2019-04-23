@@ -1,0 +1,25 @@
+.bg {
+	background-color: #F7F7F7; /* aliceblue */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 98vh;
+}
+
+.character-dooly {
+	width: 100px;
+	height: auto;
+  animation-duration: 1s;
+  animation-name: slidein;
+}
+
+@keyframes slidein {
+	from {
+		margin-left: 50%;
+	}
+
+	to {
+		margin-left: 0%;
+	}
+}
+
