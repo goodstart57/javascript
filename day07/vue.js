@@ -1,7 +1,7 @@
 // 영화정보 요청
 // https://www.themoviedb.org/
 
-const API_KEY = 'b13f5d588b56394cc6a1c7c6bd79fb98'
+const API_KEY = '<YOUR_THEMOVIEDB_API_KEY>'
 const URL = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
 const imgWidth = 500
 const IMG_URL = `http://image.tmdb.org/t/p/w${imgWidth}`
