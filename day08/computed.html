@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Vue - Computed</title>
+</head>
+<body>
+	<div id="app">
+		<button @click="addTwo(2)">2씩 증가</button>
+		<button @click="number++">1씩 증가</button>
+		<button @click="number--">1씩 감소</button>
+		<button @click="number--">1씩 감소</button>
+		<button @click="secondNumber++">secondNumber 1씩 증가</button>
+		<!-- increase 메소드 대신 number 변수에 ++ 연산자를 이용하여 함수를 대체 -->
+		<p>{{ number }}</p>
+		<p>{{ secondNumber }}</p>
+		<p>{{ computedNumber }} & {{ tenUpper() }}</p>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				number: 0,
+				secondNumber: 0,
+			},
+			methods: {
+				increase: function() {
+					this.number++
+				},
+				addTwo: function(num) {
+					return this.number += num
+				},
+				tenUpper: function(num) {
+					return this.secondNumber > 10 ? '10보다 큽니다.' : '10보다 작습니다.'
+				}
+			},
+			/**
+			 * method 속성(tenUpper)과 computed 속성(computedNumber)의 다른점
+			 * computed에는 캐싱이 있다.
+			 * 그래서 메소드가 호출될 때 캐싱되어 method보다 비교적으로 빠르다.
+			 * 
+			 * 이러한 특성 떄문에 computed를 async와 같이 사용하면 안된다.
+			*/
+			computed: {
+				computedNumber: function() {
+					return this.secondNumber > 10 ? '10보다 큽니다.' : '10보다 작습니다.'
+				}
+			}
+		})
+	</script>
+</body>
+</html>

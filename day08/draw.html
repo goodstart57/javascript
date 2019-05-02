@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>색칠놀이</title>
+	<style>
+		.box {
+			width: 50px;
+			height: 50px;
+			background-color: gray;
+			margin: 5px;
+			display: inline-block;
+		}
+
+		.red {
+			background-color: red;
+		}
+
+		.yellow {
+			background-color: yellow;
+		}
+
+		.green {
+			background-color: green;
+		}
+
+		.mouse {
+			background-color: aquamarine;
+		}
+	</style>
+</head>
+<body>
+	<!-- @click attr 뒤에 미리 정의해둔 vue 인스턴스의 메소드의 이름을 정한다. -->
+	<div id="app">
+		<p>{{ test }}</p>
+		<div @click="changeColor" :class="{red: changed}" class="box"></div>
+		<!-- v-bind:class에 k-v object 집어넣으면 v가 true일 떄 k가 문자열 그대로 class에 적용된다.-->
+		<div :style="inputColor" class="box"></div>
+		<div :class="color" class="box"></div>
+		<div class="box"></div>
+		<!-- @keyup.13도 사용 가능 -->
+		<input id="changeColorInput" @keyup.enter.space="applyColor">
+		<div class="box mouse" @mousemove="printCoordinate(10, $event)"></div>
+	</div>
+	<!-- Vue.js -->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				test: 'hello vuejs',
+				color: '',
+				changed: false,
+				width: 100,
+			},
+			methods: {
+				changeColor: function() {
+					this.changed = !this.changed
+				},
+				applyColor: function() {
+					changeColorInput = document.querySelector('#changeColorInput')
+					this.color = changeColorInput.value
+				},
+				printCoordinate: function(num, e) {
+					console.log(num)
+					console.log(e)
+				}
+			},
+			// methods와 달리 값이 변하는 순간 실행되어 렌더링된다.
+			// 캐싱된다는 특징이 있다.
+			// async가 아닌 대부분의 메소드를 정의한다. => async를 정의하지 않는다.
+			// computed에는 인자로 vue 객체가 들어오기 때문에 this와 겹친다.
+			// 단, @click과같이 @event같은 attr에서는 event가 첫 positional arg로 들어온다.
+			computed: {
+				inputColor: function() { 
+					return {
+						backgroundColor: this.color,
+						width: `${this.width}px`, //this.width + 'px' 와 같이 정수 + 문자열 조합도 가능
+					}
+				},
+			}
+		})
+	</script>
+</body>
+</html>
