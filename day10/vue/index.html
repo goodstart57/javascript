@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="main">
+    <h1>Sticky Notes</h1>
+    <textarea v-model='content'></textarea>
+    <button @click="writeMemo">Write!</button>
+    <div id="memo-container">
+      <div @click="deleteMemo" class="memo" v-for="memo in memos">
+        <div v-bind:id="memo.id" class="memo-delete-button"></div>
+        {{ memo.content }}
+      </div>
+    </div>
+  </div>
+  <script>
+  // axios.defaults.xsrfCookieName = 'csrftoken';
+  // axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+  const app = new Vue({
+    el: '#main',
+    data: {
+      url: 'http://127.0.0.1:8000/api/v1/memos/',
+      content: '',
+      memos: [],
+    },
+    methods: {
+      writeMemo: function() {
+        axios.post(this.url, {content: this.content})
+        this.content = ''
+      },
+      deleteMemo: function(e) {
+        axios.delete(this.url, {memo_id: e.srcElement.getAttribute('id')})
+      }
+    },
+    created: async function() {
+      const response = await axios.get(this.url)
+      this.memos = response.data
+    }
+  })
+  </script>
+</body>
+</html>
